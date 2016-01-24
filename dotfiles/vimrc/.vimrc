@@ -1,23 +1,15 @@
+runtime macros/matchit.vim
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" " alternatively, pass a path where Vundle should install plugins
-" "call vundle#begin('~/some/path/here')
-"
-" " let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-Bundle 'christoomey/vim-tmux-navigator'
-Bundle 'christoomey/vim-tmux-runner'
-Plugin 'thoughtbot/vim-rspec'
+set rtp+=~/.vim/colors/jellybeans.vim
+set laststatus=2
+set history=10000
+set showcmd
 
-"
-" " All of your Plugins must be added before the following line
-call vundle#end()            " required
 filetype plugin indent on    " required
-
 
 let mapleader = "\<Space>"
  call pathogen#infect()
@@ -33,17 +25,35 @@ nmap <leader>so :w <cr> <bar> :source $MYVIMRC<CR>
 imap jk <esc>
 imap kj <esc>
 
+" Set Color Scheme
+colorscheme jellybeans
+
+" Sets to inherit background color from terminal
+hi Normal ctermbg=none
+
+nnoremap <leader>va :VtrAttachToPane<cr>
+nnoremap <leader>ror :VtrReorientRunner<cr>
+nnoremap <leader>sc :VtrSendCommandToRunner<cr>
+nnoremap <leader>sl :VtrSendLinesToRunner<cr>
+vnoremap <leader>sl :VtrSendLinesToRunner<cr>
+nnoremap <leader>or :VtrOpenRunner<cr>
+nnoremap <leader>kr :VtrKillRunner<cr>
+nnoremap <leader>fr :VtrFocusRunner<cr>
+nnoremap <leader>dr :VtrDetachRunner<cr>
+nnoremap <leader>cr :VtrClearRunner<cr>
+nnoremap <leader>fc :VtrFlushCommand<cr>
+nnoremap <leader>sf :VtrSendFile<cr>
+
+map <Leader>t :call RunCurrentSpecFile()<CR>
+map <Leader>l :call RunLastSpec()<CR>
+map <Leader>a :call RunAllSpecs()<CR>
+map <Leader>n :call RunNearestSpec()<CR>
+
+
+autocmd BufRead,BufNewFile *.es6 setfiletype javascript
 autocmd VimResized * :wincmd =
 " zoom a vim pane, <C-w>= to re-balance
 nnoremap <leader>- :wincmd _<cr>:wincmd \|<cr>
 nnoremap <leader>= :wincmd =<cr>
 
 let g:rspec_command = "VtrSendCommandToRunner! rspec {spec}"
-" RSpec.vim mappings
-map <Leader>t :call RunCurrentSpecFile()<CR>
-map <Leader>s :call RunNearestSpec()<CR>
-map <Leader>l :call RunLastSpec()<CR>
-map <Leader>a :call RunAllSpecs()<CR>
-
-
-
